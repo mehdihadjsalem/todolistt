@@ -3,17 +3,38 @@ import React, {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCircleCheck, faPen, faTrashCan
+  faCircleCheck, faPen, faTrashCan, faCirclePlus
 } from '@fortawesome/free-solid-svg-icons'
 import './App.css';
+
+
 
 function App() {
 const[toDo, setToDo] = useState([]);
 const[isGetData, setIsGetData] = useState(false);
+const[filtreTask, setFiltreTask]= useState([]);
+const[query, setQuery]= useState('')
 
 // Temp state 
 const[newTask, setNewTask] = useState ('');
 const[updateData,setUpdateData] = useState ('');
+// search
+const handelSerarch=(e)=>{
+  const getSearch= e.target.value;
+    console.log(getSearch);
+
+  setQuery(getSearch);
+  
+if (getSearch.length > 0 )
+{ 
+const searchtask= toDo.filter((item)=> item.title.toLowerCase().includes(getSearch.toLowerCase()));
+setToDo(searchtask);
+}
+ else {
+  getTasks()
+}
+}
+
 
 // get tasks
 const getTasks = ( ) => { 
@@ -25,12 +46,15 @@ fetch('http://localhost:8080/get-todo', requestOptions)
     .then(async response =>  {
       const res = await response.json()
       setToDo([...res?.toDoList])
+      setFiltreTask([...res?.toDoList])
+
       setIsGetData(true)
     })    
 }
 useEffect(() => {
   getTasks()
 },[isGetData]);
+
 
 
 // Add task 
@@ -114,7 +138,30 @@ fetch(`http://localhost:8080/update-todo`, requestOptions)
 }
 
   return (
-    <div className="container App">
+    
+    <div className="container ">
+      
+      <div className=" row header">
+        <div className="Title">
+          <h2 className="SubTitle1">Welcome back!</h2>
+          <h6 className="SubTitle2"> Here's a list of your taks for this momth!</h6>
+        </div>
+        <div className=" addform ">
+          <input className='Filtre'placeholder='filtre tasks ...' onChange={(e)=>handelSerarch(e)} value={query} />
+          <div>
+            <button className='addStatus'>
+              <span className='plusS'><FontAwesomeIcon icon={faCirclePlus}/></span>
+              <span>status</span>
+            </button>
+            <button className='addPriority'>
+              <span className='plusP'><FontAwesomeIcon icon={faCirclePlus}/></span>
+              <span>Priority</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="App">
+
       <br></br>
       <h1>To Do list</h1>
       <br></br>
@@ -154,15 +201,16 @@ fetch(`http://localhost:8080/update-todo`, requestOptions)
         </>
 
       )}
-      
-     
+
       {toDo && toDo.length ? '' : 'No thanks...'}
-      {toDo && toDo?.map ((task, index) => {
+      {/* {toDo && toDo?.map ((task, index) => {
         return(
+         
           <React.Fragment key={task._id}>
             <div className=' col taskBg'>
               <div className={ task.status ? 'done' : ''}>
-                <span className='taskNumber'>{index + 1 }</span>
+                
+                <span className='taskNumber'   >{"Task-" + (index + 1) }</span>
                 <span className='taskText'>{task.title}</span>
               </div>
               <div className='iconsWrap'>
@@ -193,7 +241,66 @@ fetch(`http://localhost:8080/update-todo`, requestOptions)
            
           </React.Fragment>
         )
-      })}
+      })} */}
+      <table  className="display" >
+      <thead>
+            <tr>
+                <th></th>
+                <th>Task</th>
+                <th>Title</th>
+                <th>status</th>
+                <th>Priority</th>
+                <th>Action</th>
+            </tr>
+      </thead>
+            <tbody className='tbody'>
+            {toDo && toDo?.map ((task, index) => {
+              // console.log(task.status, "stau")
+        return(
+              <tr className='colone' key={index}>
+                <td><input className='check box' type="checkbox"/></td>
+                <td>
+                  <span>
+                    
+                  </span>  
+                   Task- {String(index + 1) }
+                </td>
+                <td>{task.title}</td>
+                <td>{String(task?.status)}</td>
+                <td>Medium</td>
+                <td>
+                <span title="completed / Not Completed"
+                onClick={ (e) => markDone(task._id)}> 
+                  <FontAwesomeIcon icon={faCircleCheck} />
+                </span>
+                {task.status ? null : (
+                  <span title="Edit"
+                  onClick={( )=> setUpdateData({
+                     id: task._id,
+                     title: task.title,
+                     stauts: task.status ? true : false
+                     })}>
+                  <FontAwesomeIcon icon={faPen}/>
+                </span>
+                )}
+                
+                <span title='Delete' 
+                onClick={() => deleteTask(task._id)}>
+                <FontAwesomeIcon icon={ faTrashCan}/>
+                </span>
+                </td>
+              </tr>
+             ) })}
+            </tbody>
+      
+    </table>
+      
+
+      </div>
+      <div>
+        <a href='#' className='btnDeletCheckbox'>Delete All Selected</a>
+      </div>
+      
     
     </div>
   );

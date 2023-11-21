@@ -1,10 +1,15 @@
 body {
-  background-color: #333;
-  color: #fff;
+  background-color: #fff7f7;
+  color: #0b0b0b;
 }
-
+.header { 
+  text-align: left;
+  
+  
+}
 .App {
   text-align: center;
+  
 }
 
 .taskBg {
@@ -68,3 +73,31 @@ body {
 .mr-20 {
   margin-right: 20px;
 }
+table { 
+  width: 80%;
+  margin: 20px auto; 
+  border-collapse: collapse;
+  background-color: #fff; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-spacing: 0;
+  border-collapse: separate;
+  border-radius:5px;
+
+  }     
+th, td { 
+  
+  padding: 10px;
+  text-align: center; 
+  border-bottom: 1px solid #ccc;
+  }   
+  .btnDeletCheckbox{
+    background-color: red;
+    color: white;  
+    padding: 10px 20px;  
+    border:none;   
+    border-radius: 4px;   
+    cursor: pointer;   
+    margin-bottom: 10px;
+    text-decoration: dotted;
+    
+  }
