@@ -1,5 +1,5 @@
 body {
-  background-color: #fff7f7;
+  background-color: white;
   color: #0b0b0b;
 }
 .header { 
@@ -9,7 +9,7 @@ body {
 }
 .App {
   text-align: center;
-  
+  margin-top: 50px;
 }
 
 .taskBg {
@@ -74,7 +74,7 @@ body {
   margin-right: 20px;
 }
 table { 
-  width: 80%;
+  width: 100%;
   margin: 20px auto; 
   border-collapse: collapse;
   background-color: #fff; 
@@ -99,5 +99,56 @@ th, td {
     cursor: pointer;   
     margin-bottom: 10px;
     text-decoration: dotted;
+    
+  }
+  .SubTitle2{
+    color:#808080;
+  }
+  .addform{
+    display: flex;
+    padding-bottom: 25px;
+    gap:20px; 
+  }
+  .Filtre{
+    border-radius: 5px;  
+    border:1px solid;
+    border-color: #D2D2D2;
+  }
+  .addFormtr{
+    gap:10px;
+    display: flex;
+    
+  }
+  .addStatus{
+    gap: 5px;;
+    width:100%;
+    display: flex;
+    border-radius: 4px;  
+    background:white; 
+    border:1px solid;
+    border-color: #D2D2D2;
+
+    
+  }
+  .addPriority{
+    gap: 5px;;
+    width:100%;
+    display: flex;
+    border-radius: 4px;
+    background:white;
+    border:1px solid;
+    border-color: #D2D2D2;
+    
+
+  }
+  .plusP{
+    margin-top:3%;
+    display:flex;
+    
+    
+  }
+  .plusS{
+    margin-top:3%;
+    display:flex;
     
   }
