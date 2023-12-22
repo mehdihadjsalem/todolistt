@@ -1,17 +1,18 @@
 // Module
 
 const mongoose = require('mongoose');
+const cors = require('cors')
 const {schema, resolvers} = require('./model/graphQl.js')
 const express = require('express');
 const ToDoListModel = require('./model/toDoList');
-const {} = require('graphql')
-const { graphqlHTTP} = require ( 'express-graphql');
+const { createSchema, createYoga } = require('graphql-yoga')
+
+
 
 var bodyParser = require('body-parser')
-var cors = require('cors');
-
 const app = express();
  app.use(express.json());
+ app.use(cors()) 
 
  
  async function run() {
@@ -20,9 +21,15 @@ const app = express();
 run()
  app.use(bodyParser.json({ limit: "50mb", extended: false }));
  app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
- app.use(cors())
 
- app.use( '/graphql',graphqlHTTP({schema,rootValue:resolvers,graphiql:true}))
+ const yoga = createYoga({
+  schema: createSchema({
+    typeDefs: schema,
+    resolvers
+  })
+})
+
+ app.use('/graphql',yoga)
  // 
 app.get( "/get-todo", async (req, res ) => { 
   const toDoList = await ToDoListModel.find()

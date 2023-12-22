@@ -310,9 +310,11 @@ function TodoPage() {
 				
 			
 					bg={"#E53E3E"}
-					w={150}
+					w={"fit-content"}
 					_hover={{ bg: '#F56565' }}
-					disabled={selectedTasks.length > 0 ? false : true}
+					
+					hidden={selectedTasks.length > 0 ? false : true}
+					// disabled={selectedTasks.length > 0 ? false : true}
 					onClick={
 						deleteSelectedTasks
 						// () => console.log("test")
